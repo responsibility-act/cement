@@ -1,0 +1,85 @@
+{
+  "Server": {
+    "Port": 9999,
+    "DevMode": true,
+    "ZapLevel": "debug"
+  },
+  "Iris": {
+    "IsDevelopment": true,
+    "Gzip": false
+  },
+  "IrisSecure": {
+    "IsDevelopment": true,
+    "SSLRedirect": false,
+    "SSLProxyHeaders": {
+      "X-Forwarded-Proto": "https"
+    }
+  },
+  "Security": {
+    "WxOauthPath": "/oauth/wechat",
+    "SecendOrigin": "https://api.luck2.me",
+    "CorsOrigins": [
+      "https://www.luck2.me"
+    ],
+    "CorsAgeSecond": 172800
+  },
+  "Captcha": {
+    "ExpiresSecond": 300,
+    "ClearsSecond": 600,
+    "FontPaths": [
+      "comic.ttf"
+    ]
+  },
+  "Order": {
+    "EvalTimeoutDay": 10,
+    "CompleteTimeoutDay": 10,
+    "HistoryTimeoutDay": 10,
+    "CheckoutExpiresMinute": 30,
+    "WxPayExpiresMinute": 120,
+    "FreeDeliverLine": 20000,
+    "MaintainTimeMinute": 100
+  },
+  "Money": {
+    "StoreSaleFeePercent": 5,
+    "User1RebatePercent": 1,
+    "Store1RebatePercent": 1,
+    "RewardFromVipCent": 10000,
+    "RewardFromVipRebateDone": 20000,
+    "WithdrawDesc": "提现"
+  },
+  "Weixin": {
+    "WebScope": "snsapi_userinfo",
+    "AppId": "wxcf4b9ef7664451fc",
+    "ApiKey": "bba8959a28f3908e3122745d18095864",
+    "MchKey": "eWjkBh5Ygyzj8HJ6xjJjNXYrSi7HpL5R",
+    "MchId": "1357523102",
+    "PayBody": "丝路车友会-微商城",
+    "PayNotifyURL": "/pay-nofity",
+    "TransCheckName": ""
+  },
+  "Alidayu": {
+    "Appkey": "23470924",
+    "AppSecret": "86aa66486eb5b068ca5c1fd6ba089f2d",
+    "CodeChars": "0123456789",
+    "CodeLen": 4,
+    "SignName": "丝路车友会",
+    "Template": "SMS_16855183"
+  },
+  "Postgres": {
+    "Addr": "127.0.0.1:5432",
+    "User": "postgres",
+    "Password": "",
+    "Database": "club",
+    "PoolSize": 20
+  },
+  "Paging": {
+    "PageSize": 25,
+    "MaxSize": 100
+  },
+  "Qiniu": {
+    "Zone": 0,
+    "Ak": "9rQGiRbwyP3rk-xYlK1ZVktu_jIP_DPj-58-qcw0",
+    "Sk": "uufD8LTkcPFefB6VBjimVN5FxdtOidqmA3AiaR_p",
+    "Bucket": "head"
+  }
+}

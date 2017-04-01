@@ -1,0 +1,15 @@
+blacklist=["migrations", "other"]
+schema="public"
+[postgres]
+  dbname="asmd"
+  host="localhost"
+  port=5432
+  user="postgres"
+  pass="6Vno3r3gH9sZHSxo"
+[mysql]
+  dbname="dbname"
+  host="localhost"
+  port=3306
+  user="dbusername"
+  pass="dbpassword"
+  sslmode="false"

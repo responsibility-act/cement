@@ -1,0 +1,12 @@
+{
+	"password": "12345678",
+	"files": {
+		"config.json": "xps-files/dev/config.json",
+		"wxapi.crt": "xps-files/dev/apiclient_cert.pem",
+		"wxapi.key": "xps-files/dev/apiclient_key.pem",
+		"server.crt": "xps-files/dev/server.crt",
+		"server.key": "xps-files/dev/server.key"
+	},
+	"xps-file": "xps-files/xps-dev.tar.gz",
+	"gzip-level": -1
+}
