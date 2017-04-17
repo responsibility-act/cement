@@ -36,13 +36,11 @@ type Order struct {
 	UserID    uint `json:"-"` // check owner only
 	Remark    string
 
-	ProductID uint
-	SkuID     uint
+	PackageID uint
+	Unit      string // `zh:"单位"`
 	Quantity  uint
 	Price     uint
 	Name      string
-	Img       string
-	Attrs     string
 
 	PayAmount    uint
 	WxPaid       uint
