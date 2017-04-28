@@ -3,16 +3,16 @@ package front
 type UserCashType int
 
 const (
-	TUserCashUnknown     UserCashType = iota // zh:"未知"
-	TUserCashPrepay                          // zh:"预付款"
-	TUserCashPrepayBack                      // zh:"预付款退回"
-	TUserCashTrade                           // zh:"交易"
-	TUserCashRefund                          // zh:"退款"
-	TUserCashPreWithdraw                     // zh:"预提现"
-	TUserCashWithdraw                        // zh:"提现"
-	TUserCashReward                          // zh:"奖励"
-	TUserCashRebate                          // zh:"返利"
-	TUserCashRecharge                        // zh:"充值"
+	TUserCashUnknown     UserCashType = iota // `zh:"未知"`
+	TUserCashPrepay                          // `zh:"预付款"`
+	TUserCashPrepayBack                      // `zh:"预付款退回"`
+	TUserCashTrade                           // `zh:"交易"`
+	TUserCashRefund                          // `zh:"退款"`
+	TUserCashPreWithdraw                     // `zh:"预提现"`
+	TUserCashWithdraw                        // `zh:"提现"`
+	TUserCashReward                          // `zh:"奖励"`
+	TUserCashRebate                          // `zh:"返利"`
+	TUserCashRecharge                        // `zh:"充值"`
 )
 
 type UserCash struct {

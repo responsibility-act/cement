@@ -3,31 +3,31 @@ package front
 type TradeState int
 
 const (
-	UNKNOWN TradeState = iota
-	NOTPAY
-	SUCCESS
-	REFUND
-	CLOSED
-	REVOKED
-	USERPAYING
-	PAYERROR
+	UNKNOWN    TradeState = iota // `zh:"未知状态"`
+	NOTPAY                       // `zh:"待付款"`
+	SUCCESS                      // `zh:"已付款"`
+	REFUND                       // `zh:"已退款"`
+	CLOSED                       // `zh:"已关闭"`
+	REVOKED                      // `zh:"已取消"`
+	USERPAYING                   // `zh:"付款中"`
+	PAYERROR                     // `zh:"付款错误"`
 )
 
 type OrderState int
 
 const (
-	TOrderStateUnknown   OrderState = iota // zh:"未知状态"
-	TOrderStateNopay                       // zh:"待付款"
-	TOrderStateCanceled                    // zh:"已关闭"
-	TOrderStatePrepaid                     // zh:"支付中"
-	TOrderStatePaid                        // zh:"已付款"
-	TOrderStateRejected                    // zh:"已拒绝"
-	TOrderStateEnsuring                    // zh:"等待确认"
-	TOrderStateEnsured                     // zh:"已确认"
-	TOrderStateRefund                      // zh:"已退款"
-	TOrderStateCompleted                   // zh:"已完成"
-	TOrderStateEvaled                      // zh:"已评价"
-	TOrderStateHistory                     // zh:"已评价"
+	TOrderStateUnknown   OrderState = iota // `zh:"未知状态"`
+	TOrderStateNopay                       // `zh:"待付款"`
+	TOrderStateCanceled                    // `zh:"已关闭"`
+	TOrderStatePrepaid                     // `zh:"支付中"`
+	TOrderStatePaid                        // `zh:"已付款"`
+	TOrderStateRejected                    // `zh:"已拒绝"`
+	TOrderStateEnsuring                    // `zh:"等待确认"`
+	TOrderStateEnsured                     // `zh:"已确认"`
+	TOrderStateRefund                      // `zh:"已退款"`
+	TOrderStateCompleted                   // `zh:"已完成"`
+	TOrderStateEvaled                      // `zh:"已评价"`
+	TOrderStateHistory                     // `zh:"已评价"`
 )
 
 type Order struct {
