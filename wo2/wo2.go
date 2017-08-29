@@ -11,10 +11,10 @@ import (
 	mpoauth2 "github.com/chanxuehong/wechat.v2/mp/oauth2"
 	"github.com/chanxuehong/wechat.v2/oauth2"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/empirefox/esecend/cerr"
-	"github.com/empirefox/esecend/config"
-	"github.com/empirefox/esecend/front"
-	"github.com/empirefox/esecend/l"
+	"github.com/empirefox/cement/cerr"
+	"github.com/empirefox/cement/config"
+	"github.com/empirefox/cement/front"
+	"github.com/empirefox/cement/l"
 	"github.com/gin-gonic/gin"
 	"github.com/mcuadros/go-defaults"
 )
@@ -24,6 +24,12 @@ var (
 
 	ErrEmptyCode = errors.New("auth code is empty")
 )
+
+type Config struct {
+	WebScope string `default:"snsapi_base" validate:"eq=snsapi_base|eq=snsapi_userinfo"`
+	AppId    string `validate:"required"`
+	ApiKey   string `validate:"required"`
+}
 
 type SecurityHandler interface {
 	Login(userinfo *mpoauth2.UserInfo, user1 uint) (ret interface{}, err error)

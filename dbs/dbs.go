@@ -3,8 +3,8 @@ package dbs
 import (
 	"sync"
 
-	"github.com/empirefox/bongine/config"
-	"github.com/empirefox/bongine/front"
+	"github.com/empirefox/cement/config"
+	"github.com/empirefox/cement/front"
 	"github.com/jinzhu/copier"
 	"github.com/uber-go/zap"
 	"gopkg.in/pg.v5"

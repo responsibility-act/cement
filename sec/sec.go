@@ -8,19 +8,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	mpoauth2 "github.com/chanxuehong/wechat.v2/mp/oauth2"
-	"github.com/golang/glog"
-
 	"github.com/dchest/uniuri"
-	"github.com/delaemon/sonyflake"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/dgrijalva/jwt-go/request"
-	"github.com/empirefox/esecend/cerr"
-	"github.com/empirefox/esecend/config"
+	"github.com/empirefox/cement/cerr"
+	"github.com/empirefox/cement/config"
+	"github.com/empirefox/cement/front"
+	"github.com/empirefox/cement/models"
 	"github.com/empirefox/esecend/db-service"
-	"github.com/empirefox/esecend/front"
-	"github.com/empirefox/esecend/models"
 	"github.com/empirefox/reform"
+	"github.com/golang/glog"
 	"github.com/patrickmn/go-cache"
+	"github.com/sony/sonyflake"
 )
 
 type Handler struct {
@@ -33,7 +32,7 @@ type Handler struct {
 func NewHandler(config *config.Config, db *dbsrv.DbService) *Handler {
 	return &Handler{
 		conf:  &config.Security,
-		sf:    sonyflake.New(sonyflake.Settings{}),
+		sf:    sonyflake.NewSonyflake(sonyflake.Settings{StartTime: time.Date(2017, time.May, 1, 0, 0, 0, 0, time.UTC)}),
 		cache: cache.New(config.Security.ExpiresMinute*time.Minute, config.Security.ClearsMinute*time.Minute),
 		db:    db,
 	}

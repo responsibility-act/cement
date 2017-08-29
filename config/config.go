@@ -3,10 +3,14 @@ package config
 import (
 	"time"
 
-	"github.com/empirefox/bogger"
+	"github.com/empirefox/cement/captchar"
+	"github.com/empirefox/cement/clog"
+	"github.com/empirefox/cement/qiniu"
+	"github.com/empirefox/cement/sms"
+	"github.com/empirefox/cement/sms/dayu"
+	"github.com/empirefox/cement/wepay"
 	"github.com/iris-contrib/middleware/secure"
 	"github.com/kataras/iris"
-	"github.com/uber-go/zap"
 )
 
 type Server struct {
@@ -14,15 +18,13 @@ type Server struct {
 	Port      int    `env:"PORT" default:"443"`
 	Cert      []byte `json:"-" xps:"server.crt"`
 	Key       []byte `json:"-" xps:"server.key"`
-	DevMode   bool   `env:"DEV_MODE"` // remove if not used
-	TLS       bool   `env:"TLS" validate:"rq=Cert,rq=Key"`
-	ZapLevel  string `env:"ZAP_LEVEL" default:"error" validate:"zap_level"`
-	ZapIris   bool   `env:"ZAP_IRIS"`
+	Dev       bool   `env:"DEV"` // this is global dev setting
+	TLS       bool   `env:"TLS" validate:"dep=Cert,dep=Key"`
 	FakeToken bool   `env:"FAKE_TOKEN"`
 }
 
 type Security struct {
-	SignAlg       string        `default:"HS256" validate:"sign_alg"`
+	SignAlg       string        `default:"HS256" validate:"eq=HS256|eq=HS384|eq=HS512"`
 	TokenLife     int64         `default:"60"` // 60 minute
 	RefreshIn     int64         `default:"5"`  // last 5 minute
 	ExpiresMinute time.Duration `default:"61ns"`
@@ -30,20 +32,6 @@ type Security struct {
 	SecendOrigin  string        `validate:"required,url"` // without '/'
 	CorsOrigins   []string      `validate:"required,gt=0,dive,required,url"`
 	CorsAgeSecond int
-}
-
-type Captcha struct {
-	StrType       int           `validate:"gte=0,lte=3"` // NUM LOWER UPPER ALL
-	Distur        int           `validate:"gt=0,lte=16"                     default:"8"`
-	FontPaths     []string      `validate:"required,gt=0,dive,required,uri`
-	BgColorLen    int           `validate:"gte=5"                           default:"5"`
-	FrontColorLen int           `validate:"gte=5"                           default:"5"`
-	Width         int           `validate:"gte=48"                          default:"92"`
-	Height        int           `validate:"gte=20"                          default:"32"`
-	CodeLen       int           `validate:"gte=4,lte=10"                    default:"4"`
-	ExpiresSecond time.Duration `validate:"gte=30"                          default:"60ns"`
-	ClearsSecond  time.Duration `validate:"gte=30,gtefield=ExpiresSecond"   default:"120ns"`
-	NbfInSecond   int64         `validate:"gte=3,ltfield=ExpiresSecond"     default:"3"`
 }
 
 type Order struct {
@@ -60,31 +48,6 @@ type Money struct {
 	User1RebatePercent  uint
 	Store1RebatePercent uint
 	WithdrawDesc        string
-}
-
-type Weixin struct {
-	WebScope       string `default:"snsapi_base" validate:"eq=snsapi_base|eq=snsapi_userinfo"`
-	AppId          string `validate:"required"`
-	ApiKey         string `validate:"required"`
-	MchKey         string `validate:"required"`
-	MchId          string `validate:"required"`
-	Cert           []byte `json:"-" validate:"gt=0" xps:"wxapi.crt"`
-	Key            []byte `json:"-" validate:"gt=0" xps:"wxapi.key"`
-	PayBody        string `validate:"required"`
-	PayNotifyURL   string `validate:"required,uri"`
-	TransCheckName string
-}
-
-type Alidayu struct {
-	Appkey         string `validate:"required"`
-	AppSecret      string `validate:"required"`
-	CodeChars      string
-	CodeLen        int
-	SignName       string        `validate:"required"`
-	Template       string        `validate:"required"`
-	RetryMinSecond time.Duration `default:"50ns"`
-	ExpiresMinute  time.Duration `default:"2ns"`
-	ClearsMinute   time.Duration `default:"4ns"`
 }
 
 // pg.v5 Options
@@ -158,20 +121,23 @@ type QiniuPrefix struct {
 }
 
 type Config struct {
-	Env         Env `json:"-"`
 	Server      Server
+	Clog        clog.Config
 	Iris        iris.Configuration `validate:"-"`
 	IrisSecure  secure.Options     `validate:"-"`
 	Security    Security
-	Captcha     Captcha
 	Order       Order
 	Money       Money
-	Weixin      Weixin
-	Alidayu     Alidayu
+	Captcha     captchar.Config
+	Wepay       wepay.Config
+	Sms         sms.Config
+	Alidayu     dayu.Config
 	Postgres    Postgres
 	Paging      Paging
+	Qiniu       qiniu.Config
 	QiniuPrefix QiniuPrefix
-	Qiniu       bogger.Config
+}
 
-	Logger zap.Logger `json:"-"`
+func (c *Config) GetEnvPtrs() []interface{} {
+	return []interface{}{&c.Server, &c.Clog}
 }

@@ -73,15 +73,6 @@ type PointsItem struct {
 	Balance   int
 }
 
-type WxPayArgs struct {
-	AppId     string `json:"appId"`
-	TimeStamp string `json:"timeStamp"`
-	NonceStr  string `json:"nonceStr"`
-	Package   string `json:"package"`
-	SignType  string `json:"signType"`
-	PaySign   string `json:"paySign"`
-}
-
 type WithdrawPayload struct {
 	Amount uint
 	Ip     string `json:"-"`

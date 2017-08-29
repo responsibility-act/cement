@@ -5,21 +5,17 @@ import (
 	"time"
 
 	"github.com/dchest/uniuri"
-	"github.com/empirefox/esecend/cerr"
-	"github.com/empirefox/esecend/config"
-	"github.com/golang/glog"
-	"github.com/opensource-conet/alidayu"
+	"github.com/empirefox/cement/perr"
 	"github.com/patrickmn/go-cache"
 )
 
-const (
-	BindPhone = "B"
-	SetPaykey = "P"
-)
-
-type Sender interface {
-	Send(prefix string, userId uint, phone string) error
-	Verify(prefix string, userId uint, phone, code string) bool
+type Config struct {
+	Dev            bool
+	CodeChars      string
+	CodeLen        int
+	RetryMinSecond time.Duration `default:"50ns"`
+	ExpiresMinute  time.Duration `default:"2ns"`
+	ClearsMinute   time.Duration `default:"4ns"`
 }
 
 type LimitedCode struct {
@@ -30,21 +26,20 @@ type LimitedCode struct {
 }
 
 type sender struct {
-	config    *config.Alidayu
+	config    Config
+	vendor    Vendor
 	cache     *cache.Cache
-	retryMin  time.Duration
+	retryDur  time.Duration
 	codeChars []byte
 }
 
-func NewSender(config *config.Config) Sender {
-	dayu := &config.Alidayu
-	alidayu.Appkey = dayu.Appkey
-	alidayu.AppSecret = dayu.AppSecret
+func NewSender(config Config, vendor Vendor) Sender {
 	return &sender{
-		config:    dayu,
-		cache:     cache.New(dayu.ExpiresMinute*time.Minute, dayu.ClearsMinute*time.Minute),
-		retryMin:  dayu.RetryMinSecond * time.Second,
-		codeChars: []byte(dayu.CodeChars),
+		config:    config,
+		vendor:    vendor,
+		cache:     cache.New(config.ExpiresMinute*time.Minute, config.ClearsMinute*time.Minute),
+		retryDur:  config.RetryMinSecond * time.Second,
+		codeChars: []byte(config.CodeChars),
 	}
 }
 
@@ -66,8 +61,8 @@ func (s *sender) Send(prefix string, userId uint, phone string) error {
 
 	if limitedCode, ok := s.cache.Get(key); ok {
 		lcode := limitedCode.(*LimitedCode)
-		if time.Now().Add(-s.retryMin).Unix() < lcode.GenAt || lcode.UserID != userId {
-			return cerr.RetrySmsFailed
+		if time.Now().Add(-s.retryDur).Unix() < lcode.GenAt || lcode.UserID != userId {
+			return perr.SmsNeedCold
 		}
 	}
 
@@ -78,17 +73,9 @@ func (s *sender) Send(prefix string, userId uint, phone string) error {
 	}
 	s.cache.Set(key, &lcode, cache.DefaultExpiration)
 
-	//	fmt.Println("phone:", phone, "sent code:", lcode.Code)
-	res, err := alidayu.SendOnce(phone, s.config.SignName, s.config.Template, fmt.Sprintf(`{"code":"%s"}`, lcode.Code))
-	if err != nil {
-		glog.Errorln(err)
-		return cerr.SendSmsError
+	if s.config.Dev {
+		fmt.Println(">>> phone:", phone, "code:", lcode.Code)
+		return nil
 	}
-
-	if !res.Success {
-		glog.Errorln(*res.ResultError)
-		return cerr.SendSmsFailed
-	}
-
-	return nil
+	return s.vendor.Send(phone, lcode.Code)
 }

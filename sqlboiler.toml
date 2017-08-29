@@ -1,7 +1,7 @@
 blacklist=["migrations", "other"]
 schema="public"
 [postgres]
-  dbname="asmd"
+  dbname="user-test"
   host="localhost"
   port=5432
   user="postgres"

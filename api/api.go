@@ -31,10 +31,8 @@ type Apis struct {
 
 	PostPayCash       string `default:"/pay/cash"`
 	PostPayPoints     string `default:"/pay/points"`
-	PostWepayInWechat string `default:"/wepay/wechat"`
-	PostWepayInH5     string `default:"/wepay/h5"`
-	PostWepayInWithQr string `default:"/wepay/qr"`
-	PostWepayAfterPay string `default:"/wepay/paid"`
+	PostWepay         string `default:"/wepay"`
+	PostWepayAfterPay string `default:"/after_wepay"`
 
 	PostOrderState string `default:"/order/state"`
 	PostOrderEval  string `default:"/order/eval/:id"`

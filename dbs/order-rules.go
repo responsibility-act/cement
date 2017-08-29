@@ -1,8 +1,8 @@
 package dbs
 
 import (
-	"github.com/empirefox/bongine/front"
-	"github.com/empirefox/bongine/fsm"
+	"github.com/empirefox/cement/front"
+	"github.com/empirefox/cement/fsm"
 )
 
 var orderRules = fsm.CreateRuleset(

@@ -11,7 +11,7 @@ import (
 
 	mpoauth2 "github.com/chanxuehong/wechat.v2/mp/oauth2"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/empirefox/esecend/config"
+	"github.com/empirefox/cement/config"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/require"
 )
