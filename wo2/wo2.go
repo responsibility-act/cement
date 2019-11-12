@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/asaskevich/govalidator"
 	"github.com/buger/jsonparser"
 	mpoauth2 "github.com/chanxuehong/wechat.v2/mp/oauth2"

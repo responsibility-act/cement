@@ -10,14 +10,14 @@ import (
 	"github.com/empirefox/cement/config"
 	"github.com/empirefox/cement/dbs"
 	"github.com/iris-contrib/middleware/cors"
-	"github.com/iris-contrib/middleware/loggerzap"
 	"github.com/iris-contrib/middleware/secure"
-	"github.com/kataras/iris"
-	"github.com/uber-go/zap"
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/logger"
+	"go.uber.org/zap"
 )
 
 type Server struct {
-	*iris.Framework
+	*iris.Application
 	config config.Config
 	logger zap.Logger
 	dbs    dbs.DBS
@@ -35,7 +35,7 @@ func NewServer(config *config.Config) (*Server, error) {
 	app := iris.New(config.Iris)
 
 	if config.Server.ZapIris {
-		app.Use(loggerzap.New(loggerzap.Config{
+		app.Use(logger.New(logger.Config{
 			Status: true,
 			IP:     true,
 			Method: true,
@@ -63,6 +63,7 @@ func NewServer(config *config.Config) (*Server, error) {
 			return err == nil && dbs.SiteExist(u.Host)
 		},
 	}))
+	app.AllowMethods(iris.MethodOptions)
 	//	app.OnError(iris.StatusBadRequest, func(ctx *iris.Context) {
 	//		ctx.Write("CUSTOM 404 NOT FOUND ERROR PAGE")
 	//		ctx.Log("http status: 400 happened!")

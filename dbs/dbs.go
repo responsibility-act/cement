@@ -6,7 +6,7 @@ import (
 	"github.com/empirefox/cement/config"
 	"github.com/empirefox/cement/front"
 	"github.com/jinzhu/copier"
-	"github.com/uber-go/zap"
+	"go.uber.org/zap"
 	"gopkg.in/pg.v5"
 )
 
